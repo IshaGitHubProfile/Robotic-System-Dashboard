@@ -1,15 +1,17 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const cors = require('cors'); // Add this line
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const MONGO_URI = process.env.MONGO_URI;
+const JWT_SECRET = process.env.JWT_SECRET;
 app.use(express.json());
 app.use(cors()); // Add this line
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost/robotic-dashboard', { 
+mongoose.connect(MONGO_URI, { 
   //useNewUrlParser: true, 
   //useUnifiedTopology: true 
 });
@@ -36,7 +38,7 @@ function verifyToken(req, res, next) {
 
 // Dashboard route
 app.get('/api/dashboard', verifyToken, (req, res) => {
-  jwt.verify(req.token, 'secretkey', (err, authData) => {
+  jwt.verify(req.token, JWT_SECRET, (err, authData) => {
     if (err) {
       res.sendStatus(403);
     } else {
