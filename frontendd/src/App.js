@@ -14,17 +14,10 @@ const App = () => {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-  };
 
   return (
     <Router>
       <div>
-        {/* <nav>
-          {token && <button onClick={handleLogout}>Logout</button>}
-        </nav> */}
         <Routes>
           <Route path="/" element={token ? <Dashboard /> : <AuthPage setToken={setToken} />} />
           <Route path="/dashboard" element={token ? <Dashboard /> : <AuthPage setToken={setToken} />} />
